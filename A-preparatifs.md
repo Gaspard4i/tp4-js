@@ -5,7 +5,7 @@
 ## Sommaire <!-- omit in toc -->
 - [A.1. Récupération du projet](#a1-récupération-du-projet)
 - [A.2. Lancement de l'application](#a2-lancement-de-lapplication)
-- [A.3. Solution du TP2](#a3-solution-du-tp2)
+- [A.3. Solution du TP3](#a3-solution-du-tp3)
 
 ## A.1. Récupération du projet
 
@@ -79,7 +79,7 @@ La commande pour lancer le projet a donc changé par rapport aux précédents TP
 
 	> _**NB : Si la page ne s'affiche pas correctement**, vérifiez que vous avez bien lancé la commande `npm start` dans le dossier du projet, c'est à dire celui où se trouve le fichier `index.html`. Puis vérifiez dans la `Debug Console` de vscode qu'il n'y a pas d'erreur JS lorsque la page se charge._
 
-## A.3. Solution du TP2
+## A.3. Solution du TP3
 
 **Avant de vous lancer dans ce TP, prenez 5 à 10 minutes pour lire le code contenu dans le dossier `/src`** et comparez le avec votre code du précédent TP.
 
