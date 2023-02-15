@@ -30,7 +30,7 @@ Pour rappel, le support navigateur de l'API fetch est plutôt bon :
 
 
 ## B.2. Charger un fichier statique
-**Pour faire nos premiers pas avec AJAX, nous allons nous commencer par essayer de charger un fichier statique.**
+**Pour faire nos premiers pas avec AJAX, nous allons commencer par essayer de charger un fichier statique.**
 
 Le but de la manipulation sera de charger un fichier html, d'en récupérer le contenu, et de l'injecter dans la vue "À propos" à la place du texte `'Contenu de la vue "À propos"'`.
 
