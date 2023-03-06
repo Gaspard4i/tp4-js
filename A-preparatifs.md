@@ -90,7 +90,7 @@ La commande pour lancer le projet a donc changé par rapport aux précédents TP
 - `View`
 - et `GameListView`
 
-Si vous n'aviez pas terminé le TP3, voici également une fonctionnalité nouvelle de JSteam : la Hitory API et le deeplinking.
+Si vous n'aviez pas terminé le TP3, voici également une fonctionnalité nouvelle de JSteam : la History API et le deep linking.
 
 Ces deux fonctionnalités permettent à votre code JS de changer l'adresse dans la barre d'adresse **SANS rechargement de page** et d'utiliser également les boutons précédent/suivant du navigateur : essayez un peu les liens du menu et la navigation avec les boutons précédent/suivant du navigateur.
 
