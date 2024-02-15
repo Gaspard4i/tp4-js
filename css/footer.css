@@ -10,6 +10,21 @@ body > footer {
 body > footer a {
 	text-decoration: none;
 	color: #C6D4DF;
+	position: relative;
+}
+body > footer a.mouseover:before {
+	content: attr(href);
+	position: absolute;
+	z-index: 1;
+	top: 110%;
+	right: 0;
+	padding: 3px 8px;
+	border-radius: 3px;
+	background-color: #1b2838;
+	font-size: 80%;
+	white-space: nowrap;
+	color:#67c1f5;
+	animation: fadeIn .2s ease, slideDown .1s ease;
 }
 body > footer > div {
 	width: 100%;

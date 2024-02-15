@@ -9,6 +9,10 @@
 	from { transform: translateY(20px); }
 	to { transform: translateY(0); }
 }
+@keyframes slideDown{
+	from { transform: translateY(-20px); }
+	to { transform: translateY(0); }
+}
 @keyframes slideBg {
 	to { background-position: -200% center; }
 }
