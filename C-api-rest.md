@@ -20,7 +20,7 @@ L'API que je vous propose d'utiliser pour la liste des jeux est l'api de [rawg.i
 Elle a l'avantage d'être gratuite, rapide et d'offrir de base **toutes les fonctionnalités dont vous aurez besoin dans ce projet**.
 
 Pour pouvoir l'utiliser il vous faudra une **clé d'API** gratuite et que vous pouvez créer en suivant les instructions ici : https://rawg.io/apidocs.
-1. Créez vous un compte sur rawg.io
+1. Créez vous un compte sur https://rawg.io/signup
 2. Une fois connecté, ouvrez le menu en haut à droite (en survolant les "...")
 3. Cliquez sur le lien "Get an API key" dans le menu qui s'est affiché
 4. Remplissez le formulaire de demande de clé
