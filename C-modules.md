@@ -182,7 +182,7 @@ Comme vu en cours, le bundler le plus employé en JS est [Webpack](https://webpa
 	```js
 	import path from 'path';
 
-	module.exports = {
+	export default {
 		// Fichier d'entrée :
 		entry: './src/main.js',
 		// Fichier de sortie :
