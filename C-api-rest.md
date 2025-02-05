@@ -29,7 +29,7 @@ Pour pouvoir l'utiliser il vous faudra une **clé d'API** gratuite et que vous p
 
 	<img src="images/readme/rawg-games.png" >
 
-> _**NB :** la version gratuite de l'API vous limite à 20 000 requêtes par mois et par clé d'API ce qui vous laisse en principe de la marge si vous ne faites pas de boucles infinies !_ 😬
+> ℹ️ _La version gratuite de l'API vous limite à 20 000 requêtes par mois et par clé d'API ce qui vous laisse en principe de la marge si vous ne faites pas de boucles infinies !_ 😬
 
 ## C.2. Récupération de la liste des jeux
 
@@ -45,17 +45,26 @@ _**Maintenant que vous avez votre clé d'API, connectons notre appli aux webserv
 
 2. Dans la méthode `renderGameList()` **lancez un appel AJAX vers l'URL https://api.rawg.io/api/games?key=xxxxxxxxxxxxxxxxxxxxxx** (_n'oubliez pas votre clé d'API_).
 
-	> _**NB :** cette méthode `renderGameList() {...}` -[codée lors du précédent TP](https://gitlab.univ-lille.fr/js/tp3/-/blob/main/E-poo-avancee.md#e5-gamelist)- est appelée par la `GameListView` lorsqu'elle est affichée (méthode `show`) et quand l'utilisateur.rice soumet le formulaire de recherche (méthode `handleSearchFormSubmit()`)._
+	> <details><summary>ℹ️ <em>Si vous n'aviez pas codé la méthode <code>renderGameList(...)</code> dans le précédent TP...</em></summary>
 	>
-	> _En plaçant notre appel AJAX dans cette méthode `renderGameList()`, la requête AJAX sera du coup déclenchée **à chaque fois que l'utilisateur arrive sur la page "MAGASIN"** mais aussi **à chaque fois qu'il fera une recherche** ! Ce qui permettra plus tard dans le TP d'avoir toujours des données à jour et de passer les critères de recherche à l'API._
+	> _Elle faisait partie de [la dernière partie du TP](https://gitlab.univ-lille.fr/js/tp3/-/blob/main/E-poo-avancee.md#e5-gamelist)._
+	>
+	> _Regardez dans `GameListView` : cette méthode est en fait appelée par la `GameListView` lorsqu'elle est affichée (méthode `show()`) et quand l'utilisateur·rice soumet le formulaire de recherche (méthode `handleSearchFormSubmit()`)._
+	>
+	> _En plaçant notre appel AJAX dans cette méthode `renderGameList()`, la requête AJAX sera du coup déclenchée **à chaque fois que l'on arrive sur la page "MAGASIN"** mais aussi **à chaque fois qu'on fera une recherche** !_
+	>
+	> _Ça permettra plus tard dans le TP d'avoir toujours des données à jour et de passer les critères de recherche à l'API._
+	> </details>
 
 3. **Une fois les données reçues, mettez à jour la page HTML avec la liste des jeux reçus en vous inspirant de ce qu'on a fait dans la partie B.**
 
-	> _**Indices :**_
-	> 1. _**Souvenez vous que `fetch` est une fonction asynchrone** et retourne une Promesse, pour chaîner des traitements il faut utiliser la méthode `.then`_
-	> 2. _**L'API de rawg retourne du texte au format JSON**. Comme vu en cours il y a différents moyens pour parser cette chaîne de caractères et pour récupérer des données exploitables en JS._
-	> 3. _**Utilisez l'inspecteur Réseau/Network des devtools de votre navigateur (Chrome/Firefox) pour étudier la structure de la réponse retournée par l'API de rawg :** en cherchant bien vous devriez pouvoir trouver un tableau d'objets littéraux contenant des jeux_
+	> <details><summary>💡 <em>Besoin d'indices ou de conseils ?</em></summary>
+	>
+	> 1. _**Souvenez vous que `fetch` est une fonction asynchrone** et retourne une Promesse, pour chaîner des traitements il faut donc utiliser la méthode `.then`_
+	> 2. _**L'API de rawg retourne du texte au format JSON**. Comme vu en cours il y a différents moyens pour parser cette chaîne de caractères et pour récupérer des données exploitables en JS_
+	> 3. _**Utilisez l'inspecteur Réseau/Network des devtools de votre navigateur pour étudier la structure de la réponse retournée par l'API de rawg :** en cherchant bien vous devriez pouvoir trouver un tableau d'objets littéraux contenant des jeux_
 	> 4. _**N'utilisez PAS l'objet `document` dans votre module sans quoi il ne sera pas facilement réutilisable !**_
+	> </details>
 
 	<img src="images/readme/gamelist-complete.png">
 
@@ -65,46 +74,49 @@ _**Maintenant que vous avez votre clé d'API, connectons notre appli aux webserv
 
 **Bon c'est vrai, c'est bien, on peut afficher la liste des jeux retournée par défaut par l'API, mais comme on a commenté le code de notre méthode `renderGamelist()` on a "perdu" le code qui permettait de filtrer et de trier les résultats.** 😕
 
-En fait ceci est volontaire : notre mécanique de recherche était un peu "basique" puisqu'elle ne permettait de rechercher / trier que parmi les résultats affichés dans la page.
+En fait c'était volontaire : notre mécanique de recherche était un peu "simpliste" puisqu'elle ne permettait de rechercher / trier que parmi les résultats affichés dans la page.
 
-Par exemple, si on réactivait notre mécanique de recherche telle qu'elle existe actuellement, on ne pourra rechercher que parmi les 20 résultats fournis de base par l'API. Dommage quand on sait que la base de données de rawg.io contient plus de 350.000 jeux !!
+Par exemple, si on réactive notre mécanique de recherche sans la changer, on ne pourra rechercher que parmi les 20 résultats fournis de base par l'API. Dommage quand on sait que la base de données de rawg.io contient plus de 350.000 jeux !!
 
 **Par chance, l'API que l'on utilise pour récupérer la liste des jeux autorise l'envoi de paramètres GET permettant de :**
 - **rechercher** : paramètre `search=...`
 - **trier les résultats** : paramètre `ordering=...`
 
-> _cf. https://api.rawg.io/docs/#operation/games_list_
+> ℹ️ _cf. la doc : https://api.rawg.io/docs/#operation/games\_list_
 
-À partir de ces informations faites donc en sorte que le moteur de recherche fonctionne à nouveau, par exemple si vous recherchez "red" et que vous triez par note, vous devriez avoir un résultat de ce type :
+À partir de ces informations faites donc en sorte que le moteur de recherche fonctionne à nouveau, par exemple si vous recherchez `"red"` et que vous triez par note, vous devriez avoir un résultat de ce type :
 
 <img src="images/readme/gamelist-recherche.png">
 
 
 ## C.4. Feedback
-_**Maintenant que vous êtes un.e pro des appels AJAX, attardons nous quelques minutes sur l'expérience utilisateur (UX).**_
+_**Maintenant que vous êtes un·e pro des appels AJAX, attardons nous quelques minutes sur l'expérience utilisateur (UX).**_
 
-Contrairement aux applis web classiques, lorsqu'un appel AJAX commence, le navigateur ne donne aucun indice permettant à l'utilisateur de deviner qu'il se passe quelque chose (_la page ne s'efface pas, il n'y a pas de "loader" ou de barre de progression_), il peut donc avoir l'impression que sa demande n'a pas été prise en compte, que le site est "planté", voire cliquer frénétiquement sur un bouton pour le faire marcher (_ce qui n'aura comme autre effet que de lancer autant de requêtes HTTP supplémentaires..._).
+Contrairement aux applis web classiques, lorsqu'un appel AJAX commence, le navigateur ne donne aucun indice permettant à l'utilisateur·ice de deviner qu'il se passe quelque chose (_la page ne s'efface pas, il n'y a pas de "loader" ou de barre de progression_), il/elle peut donc avoir l'impression que sa demande n'a pas été prise en compte, que le site est "planté", voire cliquer frénétiquement sur un bouton pour le faire marcher (_ce qui n'aura comme autre effet que de lancer autant de requêtes HTTP supplémentaires..._).
 
-**Il faut donc donner cette information à l'utilisateur nous même, en affichant par exemple un message ou une animation dans la page.**
+**Il faut donc donner cette information à l'utilisateur·ice nous même, en affichant par exemple un message ou une animation dans la page.**
 
 Dans la `GameListView` :
-1. ajoutez la classe `is-loading` à la balise `<section class="results"></section>` juste avant de lancer l'appel AJAX à l'API, puis retirez la classe `is-loading` une fois les données reçues (_**attention à l'ordre d'exécution des instructions !**_)
+1. Ajoutez la classe `is-loading` à la balise `<section class="results"></section>` juste avant de lancer l'appel AJAX à l'API, puis retirez la classe `is-loading` une fois les données reçues (_**attention à l'ordre d'exécution des instructions !**_)
 
-	> _**NB :** Il est possible que comme l'API répond parfois très rapidement, vous n'ayez pas le temps de voir le loader apparaître._
+	> <details><summary>ℹ️ <em>L'API répond trop vite et vous n'arrivez pas à voir le loader ?</em></summary>
 	>
-	> _La solution dans ce genre de situations est d'utiliser le système de **bridage de bande passante** intégré aux devtools du navigateur. Par exemple sur Firefox :_
+	> _C'est normal, en effet, il est possible que comme l'API répond parfois très rapidement, vous n'ayez pas le temps de voir le loader apparaître._
 	>
-	> <img src="images/readme/firefox-throttle.png">
+	> _La solution dans ce genre de situations est d'utiliser le système de **bridage de bande passante** ([throttling (doc)](https://developer.chrome.com/docs/devtools/network?hl=fr#throttle)) intégré aux devtools :_
+	>
+	> <img src="images/readme/throttle.png">
 	>
 	> _Sélectionnez `Regular 2G` et lancez une recherche pour voir l'impact sur l'affichage._
 	>
 	> _**Astuce :** Une fois vos tests terminés, pensez à désactiver le bridage !!!_ :wink:
+	> </details>
 
 2. **Désactivez le bouton du formulaire de recherche pendant que l'appel AJAX est en cours** pour éviter que l'utilisateur ne soumette plusieurs fois la même recherche !
 
-	> _**NB1 :** La désactivation d'un bouton se fait en ajoutant un attribut [`disabled` (mdn)](https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/disabled)_
+	> ℹ️ _La **désactivation** d'un bouton se fait en ajoutant un attribut [`disabled` (mdn)](https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/disabled)_
 
-	> _**NB2 :** Vous remarquerez peut-être que les styles CSS appliqués au bouton lorsqu'il est désactivé permettent à l'internaute de savoir que quelque chose se passe : bouton grisé + curseur "wait"_
+	> ℹ️ _Vous remarquerez peut-être que les styles CSS appliqués au bouton lorsqu'il est désactivé permettent à l'internaute de savoir que quelque chose se passe : bouton grisé + curseur "wait"_
 
 ## Étape suivante  <!-- omit in toc -->
 Maintenant que vous savez comment faire communiquer une appli JS avec un serveur distant, voyons comment réappliquer ça sur une deuxième page dans la partie [D. GameDetailView](D-gamedetail.md).

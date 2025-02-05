@@ -17,17 +17,6 @@ Comme vu en cours (_récupérez si ce n'est pas déjà fait le pdf !_) il existe
 **C'est l'API fetch que nous utiliserons dans ce TP.** \
 En effet, elle dispose d'une syntaxe plus concise, avec laquelle il est plus facile de chaîner les traitements grâce aux [Promises](https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Utiliser_les_promesses).
 
-Pour rappel, le support navigateur de l'API fetch est plutôt bon :
-
-<a href="http://caniuse.com/#feat=fetch">
-	<picture>
-		<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/fetch.webp">
-		<img src="https://caniuse.bitsofco.de/image/fetch.png" alt="Data on support for the fetch feature across the major browsers from caniuse.com">
-	</picture>
-</a>
-
-> _**NB :** Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible avec l'API fetch**. C'est aussi le cas des versions d'android 4.4.4 et inférieures. Heureusement, un [polyfill](https://fr.wikipedia.org/wiki/Polyfill) développé par Github est disponible ici : https://github.com/github/fetch. Sur un projet réel, si vous aviez besoin de supporter ces navigateurs anciens, vous devriez mettre en place ce polyfill. Pour gagner du temps nous ignorerons cette problématique dans ce TP._
-
 
 ## B.2. Charger un fichier statique
 **Pour faire nos premiers pas avec AJAX, nous allons commencer par essayer de charger un fichier statique.**
@@ -36,7 +25,7 @@ Le but de la manipulation sera de charger un fichier html, d'en récupérer le c
 
 On pourrait coder ça directement dans le fichier `main.js` mais comme vu lors du précédent TP, on va essayer de ranger "proprement" notre code et de mettre ça dans un module réutilisable pour la vue "À propos".
 
-1. **Commencez par créer une classe spéciale pour la vue "À propos" :** créez un fichier `src/AboutView.js` et codez-y une classe `AboutView` qui hérite de la classe `View`.
+1. **Commencez par créer une classe spéciale pour la vue "À propos" :** créez un fichier `src/AboutView.js` et codez-y une classe `AboutView` qui hérite juste de la classe `View`.
 
 2. **Dans le `main.js` modifiez la déclaration de la constante `aboutView` :** plutôt que d'instancier la classe `View`, instanciez votre nouvelle classe `AboutView`.
 
@@ -63,7 +52,7 @@ On pourrait coder ça directement dans le fichier `main.js` mais comme vu lors d
 				<a href="https://iut.univ-lille.fr/">iut.univ-lille.fr</a>
 			</li>
 		</ul>
-		<button class="button">Nous contacter</button>
+		<a href="#" class="button">Nous contacter</a>
 	</div>
 	```
 
@@ -71,14 +60,19 @@ On pourrait coder ça directement dans le fichier `main.js` mais comme vu lors d
 	```js
 	fetch('./about.html');
 	```
+	> <details><summary>💡 <em>A propos de la surcharge de méthode en JS</em></summary>
+	>
+	> _Souvenez-vous que quand on surcharge une méthode, si l'on veut conserver le fonctionnement de base de la méthode parente, alors il faut l'invoquer avec l'instruction `super.maMethode()` !_
+	> </details>
 
-	> _**NB :** Souvenez-vous que quand on surcharge une méthode, si l'on veut conserver le fonctionnement de base de la méthode parente, alors il faut l'invoquer avec l'instruction `super.maMethode()`_
-
-	Rechargez la page html dans le navigateur et vérifiez dans l'onglet Network/Réseau des devtools que votre page lance bien le chargement du fichier `about.html`.
+	Rechargez la page html dans le navigateur et vérifiez dans l'onglet Network/Réseau des devtools que votre page déclenche bien le chargement du fichier `about.html`.
 
 	<img src="images/readme/ajax-about-html-network.png" />
 
-	Notez qu'il s'agit bien d'une requête HTTP et pas d'un appel à un fichier local : l'URL de la requête est bien http://localhost:8000/about.html c'est donc bien le serveur HTTP (lancé par webpack et le `npm start`) qui génère la réponse HTTP retournée au navigateur.
+	> <details><summary>ℹ️ <em>Notez qu'il s'agit bien d'<strong>une requête HTTP</strong> et pas d'un appel à un fichier local !</em></summary>
+	>
+	> _l'URL de la requête est en effet http://localhost:8000/about.html : comme le protocole est `"http://"` c'est donc bien le serveur HTTP (lancé par webpack et le `npm start`) qui est interrogé et qui génère la réponse HTTP retournée au navigateur._
+	> </details>
 
 	Maintenant que l'on arrive à lancer la requête, reste à exploiter la réponse renvoyée par le serveur et les données qu'elle contient !
 
@@ -88,11 +82,34 @@ On pourrait coder ça directement dans le fichier `main.js` mais comme vu lors d
 		.then( response => console.log(response) );
 	```
 
+	> <details><summary>📖 <em>Besoin d'explications sur le fonctionnement de ce <code>.then</code> ?</em></summary>
+	>
+	> _Ce qu'il faut comprendre c'est que la fonction `fetch()` retourne un objet qui est du type [`Promise` (mdn)](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Promise). C'est sur cet objet qu'on appelle la méthode `.then()`. On pourrait d'ailleurs écrire le code ci-dessus comme ceci :_
+	> ```ts
+	> const myPromise = fetch('http://localhost:8080/api/videos');
+	> myPromise.then( response => console.log(response) );
+	> ```
+	> _Cet objet de type `Promise` dispose donc d'une méthode `.then()` à laquelle on fourni une fonction de callback. Cette fonction sera appelée une fois la promesse terminée._ \
+	> _Ici j'ai mis dans l'exemple une **fonction fléchée**, mais on aurait tout à fait pu écrire notre fonction en amont (sous forme de fonction nommée, anonyme ou arrow) et ensuite passer à `.then` une **référence** vers cette fonction :_
+	> ```ts
+	> const myPromise = fetch('http://localhost:8080/api/videos');
+	> function handleResponse( response ){
+	> 	console.log(response);
+	> }
+	> myPromise.then( handleResponse );
+	> ```
+	> ⚠️ _Attention :  on passe bien à `.then()` une **RÉFÉRENCE** de fonction et **SURTOUT PAS L'EXÉCUTION** de la fonction (sinon au lieu de s'exécuter "plus tard", quand le serveur aura répondu à notre requête, on l'exécutera dès le départ, avant même d'attendre la réponse). N'écrivez donc JAMAIS ceci :_
+	> ```ts
+	> // ON NE MET JAMAIS LES PARENTHESES APRES LA FONCTION PASSEE À .then(...)
+	> myPromise.then( handleResponse() ); // <-- ❌ NE FAITES JAMAIS ÇA 🤯
+	> ```
+	> </details>
+
 	Rechargez la page et regardez ce qui s'affiche dans la console : il s'agit d'un objet de type [Response](https://developer.mozilla.org/fr/docs/Web/API/Response) retourné par l'API fetch.
 
 	<img src="images/readme/ajax-about-response.png" />
 
-	Comme vu en cours, cet objet contient notamment des propriétés `ok`, `status` et `statusText` qui permettent d'en savoir plus sur la réponse HTTP retournée par le serveur.
+	Comme vu en cours, vous pouvez remarquer dans la console que cet objet `response` contient des propriétés `ok`, `status` et `statusText` qui permettent d'en savoir plus sur la réponse HTTP retournée par le serveur.
 
 6. **On va maintenant pouvoir récupérer les données brutes contenues dans la réponse HTTP grâce à la méthode [response.text()](https://developer.mozilla.org/en-US/docs/Web/API/Response/text)** :
 	```js
@@ -119,16 +136,16 @@ On pourrait coder ça directement dans le fichier `main.js` mais comme vu lors d
 	<img src="images/readme/ajax-about-html-console2.png">
 
 	Est-ce que cela vous semble normal ? \
-	Non ? **C'est pourtant logique :** la fonction qui est passée au deuxième `.then()` n'est exécutée qu'une fois que la requête http est terminée (_càd. une fois que le fichier est fini de télécharger_). Le reste du code **continue de s'exécuter en attendant que la requête se termine** ! \
-	Cela signifie que si l'on met du code en dessous du fetch, en dehors des `.then`, il sera exécuté AVANT que la requête AJAX ne soit terminée !
+	Non ? **C'est pourtant logique :** la fonction qui est passée au deuxième `.then()` n'est exécutée qu'une fois que la requête http est **terminée** (_càd. une fois que le fichier est fini de télécharger_). Le reste du code **continue de s'exécuter en attendant que la requête se termine** ! \
+	Cela signifie que si l'on met du code en dessous du fetch, en dehors des `.then`, il s'exécute AVANT que la requête AJAX ne soit terminée !
 
-	Si vous avez compris, vous pouvez effacer les `console.log` inutiles et passer à la suite. Sinon appelez votre professeur.e !
+	Si vous avez compris, vous pouvez effacer les `console.log` inutiles et passer à la suite. Sinon appelez votre professeur·e !
 
 ## B.2. Exploiter les données chargées
 
-Maintenant que l'on a réussi à charger le contenu du fichier `about.html`, il nous reste à en faire quelque chose ! On va simplement essayer d'injecter le code HTML du fichier `about.html` dans la page pour l'afficher aux utilisateur.rices !
+Maintenant que l'on a réussi à charger le contenu du fichier `about.html`, il nous reste à en faire quelque chose ! On va simplement essayer d'injecter le code HTML du fichier `about.html` dans la page pour l'afficher aux utilisateur·rices !
 
-1. **Avant d'injecter le code HTML dans la page, vous allez devoir faire un peu de ménage :** dans le fichier `index.html`, supprimez le **contenu** de la balise `<article class="about">Contenu de la vue "À propos"</article>` (la balise doit toujours exister dans la page mais elle doit être vide). Vous devez obtenir :
+1. **Avant d'injecter le code HTML dans la page, vous allez devoir faire un peu de ménage :** dans le fichier `index.html`, supprimez le **CONTENU** de la balise `<article class="about">Contenu de la vue "À propos"</article>` (la balise doit toujours exister dans la page mais elle doit être vide). Vous devez obtenir :
 
 	```html
 	<article class="about"></article>
@@ -140,7 +157,7 @@ Maintenant que l'on a réussi à charger le contenu du fichier `about.html`, il 
 
 2. **À l'aide de l'API DOM injectez le contenu du fichier `about.html` dans la balise `<article class="about"></article>`.** Plutôt que de tout coder dans le `.then()` on va passer par une nouvelle méthode de notre classe `AboutView` :
 
-	Ajoutez une méthode `showFileContent` :
+	Ajoutez dans la classe `AboutView` une méthode `showFileContent` :
 	```js
 	showFileContent(html) {
 		//..
@@ -156,7 +173,7 @@ Maintenant que l'on a réussi à charger le contenu du fichier `about.html`, il 
 
 	<img src="images/readme/ajax-about-innerhtml.png">
 
-3.  **Faites en sorte que le clic sur le bouton `<button class="button">Nous contacter</button>` redirige l'utilisateur (_SANS RECHARGEMENT DE PAGE_) vers la page "SUPPORT"**.
+3.  **Faites en sorte que le clic sur le lien `<a href="#" class="button">Nous contacter</a>` redirige l'utilisateur·ice (_SANS RECHARGEMENT DE PAGE_) vers la page "SUPPORT"**.
 
 
 ## Étape suivante  <!-- omit in toc -->

@@ -58,6 +58,8 @@ Il va vous servir de base pour ce nouveau TP.
 	npm i
 	```
 
+	> ℹ️ _`npm i` est un raccourci pour `npm install`_
+
 	> <details><summary>ℹ️ <em>Pourquoi on ne dit pas à <code>npm install</code> quels sont les paquets qu'on veut installer ?</em></summary>
 	>
 	> _Effectivement jusque là on a toujours utilisé `npm install nom-de-la-lib` quand on voulait installer un paquet en particulier (`npm install @babel/core`, `@babel/cli`, etc.)._
@@ -80,15 +82,11 @@ La commande pour lancer le projet a donc changé par rapport aux précédents TP
 
 2. **Pour afficher votre site, plutôt que d'ouvrir vous-même votre navigateur, utilisez la fonctionnalité de debug dans VSCode testée lors du précédent TP :**
 
-	> _Si vous n'aviez pas pu faire cette partie pour des questions de compatibilité de Firefox, je vous invite à :_
-	> 1. _suivre le tutoriel spécifique à Firefox ici : https://gitlab.univ-lille.fr/js/tp3/-/blob/main/B-debug-vscode-firefox.md_
-	> 2. _prendre connaissance des différentes possibilités offertes par le debug dans vscode ici : https://gitlab.univ-lille.fr/js/tp3/-/blob/main/B-debug-vscode.md#b2-utilisation-du-mode-debug_
-
 	Pour lancer votre site en mode "debug dans vscode", tapez <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>P</kbd> puis sélectionnez "Debug: Select and start debugging".
 
-	Choisissez le navigateur que vous souhaitez lancer (Firefox ou Chrome), une nouvelle fenêtre de votre navigateur doit s'ouvrir (on considérera pour la suite que c'est Chrome que vous avez choisi).
+	Choisissez le navigateur que vous souhaitez lancer (Chromium ou Chrome), une nouvelle fenêtre de votre navigateur doit s'ouvrir (on considérera pour la suite que c'est Chrome que vous avez choisi).
 
-4. **Vérifiez dans le navigateur qui s'est ouvert que la page `index.html` s'affiche correctement** :
+3. **Vérifiez dans le navigateur qui s'est ouvert que la page `index.html` s'affiche correctement** :
 
 	> <details><summary>🚧 <em>La page ne s'affiche pas correctement ?</em></summary>
 	>
@@ -111,7 +109,7 @@ La commande pour lancer le projet a donc changé par rapport aux précédents TP
 - `View`
 - et `GameListView`
 
-Si vous n'aviez pas terminé le TP3, voici également une fonctionnalité nouvelle de JSteam : la History API et le deep linking.
+Si vous n'aviez pas terminé le TP3, voici également une fonctionnalité nouvelle de JSteam : la **History API** et le **deep linking**.
 
 Ces deux fonctionnalités permettent à votre code JS de changer l'adresse dans la barre d'adresse **SANS rechargement de page** et d'utiliser également les boutons précédent/suivant du navigateur : essayez un peu les liens du menu et la navigation avec les boutons précédent/suivant du navigateur.
 

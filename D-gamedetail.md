@@ -11,13 +11,13 @@
 - [D.1. Création de GameDetailView](#d1-création-de-gamedetailview)
 - [D.2. Récupération du jeu à afficher](#d2-récupération-du-jeu-à-afficher)
 - [D.3. Appel webservice et affichage](#d3-appel-webservice-et-affichage)
-- [D.4. Lien GameList / GameDetail et modification du Router](#d4-lien-gamelist-gamedetail-et-modification-du-router)
+- [D.4. Lien GameList / GameDetail et modification du Router](#d4-lien-gamelist--gamedetail-et-modification-du-router)
 - [D.5. Screenshots](#d5-screenshots)
 
 
 Le principe de cet exercice est simple : faire en sorte que quand on clique sur une vignette de jeu dans la liste, on soit redirigé vers une page de "détail" du jeu qu'on a choisi, avec des informations supplémentaires (_screenshots, plateformes supportées, description, etc._).
 
-> _Pour cet exercice vous pouvez choisir de faire tout.e seul.e comme un.e grand.e ou bien suivre les instructions ci-dessous._
+> ℹ️ _Pour cet exercice vous pouvez choisir de faire tout.e seul.e comme un.e grand.e ou bien suivre les instructions ci-dessous._
 >
 > _À vous de choisir !_
 
@@ -33,9 +33,10 @@ La première étape que je vous propose est donc de faire en sorte qu'on soit ca
 
 1. **Créez une classe `GameDetailView`** qui hérite de la classe `View` dans un module `src/GameDetail.js`.
 
-	> _pour le moment on n'a pas de comportement particulier à ajouter à cette classe, faites la juste étendre de `View`._
+	> ℹ️ _Pour le moment on n'a pas de comportement particulier à ajouter à cette classe, faites la juste étendre de `View`._
+
 2. **Dans le fichier `main.js` créez une instance de cette classe `GameDetailView` nommée `gameDetailView` (_avec un "g" minuscule_)** et passez en paramètre du constructeur la balise (Element) `<article class="gameDetail">`
-3. **Pour afficher cette vue, il faut dire au Router quelle URL lui correspond.** Cela se fait en modifiant le tableau `routes` qui ressemble actuellement à ceci :
+3. **Pour afficher cette vue, il faut dire au Router quelle URL lui correspond.** Cela se fait en modifiant le tableau `routes` dans `main.js` qui ressemble actuellement à ceci :
 
 	```js
 	const routes = [
@@ -50,9 +51,9 @@ La première étape que je vous propose est donc de faire en sorte qu'on soit ca
 	- dans la propriété `title` ce que vous voulez (_par exemple `'Détail jeu'`_)
 	- dans la propriété `path` mettons pour le moment une adresse temporaire pour nous permettre de tester notre page : `/detail`
 
-		> _on dit "temporaire" car à un moment donné il faudra bien mettre dans l'URL l'id du jeu que la page détail doit afficher_
+		> ℹ️ _On dit "temporaire" car à un moment donné il faudra bien mettre dans l'URL l'id du jeu que la page détail doit afficher._
 		>
-		> _Mais pour le moment on va faire simple, on va déjà essayer juste d'afficher la page, on verra par la suite comment passer l'id_
+		> _Mais pour le moment on va faire simple, on va déjà essayer juste d'afficher la page, on verra par la suite comment passer l'id._
 
 4. **Maintenant que la route est créée, rendez-vous sur l'adresse http://localhost:8000/detail** normalement la balise `<article class="gameDetail">` doit s'afficher  :
 
@@ -62,19 +63,19 @@ La première étape que je vous propose est donc de faire en sorte qu'on soit ca
 
 La première étape est terminée : notre `GameDetailView` s'affiche. Mais par contre elle est pour le moment incapable de savoir quel jeu afficher.
 
-Pour lui indiquer le jeu à afficher on va passer dans l'URL de la page un ["`slug`" _(wikipedia)_](https://fr.wikipedia.org/wiki/Slug_(journalisme)#En_informatique). Chaque jeu de l'API de rawg dispose en effet d'un slug unique. Si vous inspectez la réponse du webservice https://api.rawg.io/api/games?key=votre-cle-d-api vous verrez qu'on a bien pour chaque jeu une propriété `slug` :
+Pour lui indiquer le jeu à afficher on va passer dans l'URL de la page un ["`slug`" _(wikipedia)_](https://fr.wikipedia.org/wiki/Slug_(journalisme)#En_informatique). Chaque jeu de l'API de rawg dispose en effet d'un "slug" unique. Si vous inspectez la réponse du webservice https://api.rawg.io/api/games?key=votre-cle-d-api vous verrez qu'on a bien pour chaque jeu une propriété `slug` :
 
 <img src="images/readme/detail-api-slug.png" />
 
 On va donc maintenant essayer de faire en sorte que lorsque l'on va sur http://localhost:8000/detail-mario-kart-8-deluxe ou sur http://localhost:8000/detail-red-dead-redemption :
-- le Router soit capable de savoir que c'est la route qui correspond à `GameDetailView` qu'il doit afficher
-- le Router envoie à la `GameDetailView` la partie de l'URL qui se trouve **après** les caractères `"detail-"` (_par exemple en paramètre de l'appel à la méthode `show`_)
+- le `Router` soit capable de savoir que c'est la route qui correspond à `GameDetailView` qu'il doit afficher
+- le `Router` envoie à la `GameDetailView` la partie de l'URL qui se trouve **après** les caractères `"detail-"` (_par exemple en paramètre de l'appel à la méthode `show`_)
 
 Il y a plein de techniques pour faire ça, mais je vous propose de procéder comme ceci :
 1. Dans le tableau `routes` du `main.js` remplacez le `path` de votre route `/detail` par `/detail-*`
 2. Dans la méthode `Router.navigate()`, au moment où le `Router` parcourt toutes les routes pour trouver celle qui correspond à l'URL demandée (`const route = this.routes.find(...)`), testez si le `path` de la route **termine** par une `*` et si l'URL demandée (_dans notre exemple `/detail-mario-kart-8-deluxe`_) **commence** par la même chose que ce qui se trouve avant l'`*` dans la route.
 
-	> _**NB :** la classe String dispose justement de méthodes pour tester si une chaîne **commence** ou **termine** par une autre..._
+	> 💡 _La classe `String` dispose justement de méthodes pour tester si une chaîne **commence** ou **termine** par une autre..._
 
 	> _**Exemple :** pour bien comprendre :_
 	> - _si la `route.path` est `/detail-*`, comme elle termine par `*` on prend tout ce qui se trouve "avant" le `*` donc `/detail-`_
@@ -173,11 +174,23 @@ Pour faire ça, il va falloir écouter le clic sur les vignettes dans la `GameLi
 
 	Par exemple si l'on clique sur la vignette de Mario Kart 8 Deluxe, le href du lien doit être `/detail-mario-kart-8-deluxe` et donc la GameListView doit faire appel à `Router.navigate('/detail-mario-kart-8-deluxe')`
 
-	> _**Indice :** comme on a plusieurs liens à écouter, il vous faudra probablement un querySelectorAll, une boucle et appeler addEventListener pour chaque vignette._
+	> <details><summary>💡 <em>Indice 1</em></summary>
+	>
+	> _Comme on a plusieurs liens à écouter, il vous faudra probablement un `querySelectorAll(...)`, une boucle et appeler `addEventListener(...)` pour chaque vignette._
+	> </details>
 
-	> _**Indice 2 :** pour récupérer la valeur du `href` vous pouvez utiliser la propriété `event.currentTarget` qui contient le lien sur lequel on a cliqué, et la méthode `getAttribute` pour récupérer la valeur du `href`_
+	> <details><summary>💡 <em>Indice 2</em></summary>
+	>
+	> _Pour récupérer la valeur du `href` du lien cliqué, vous pouvez utiliser :_
+	> - _la propriété `event.currentTarget` qui contient la balise qui a déclenché l'événément détecté (donc ici le lien sur lequel on a cliqué)_
+	> - _et la méthode `getAttribute()` pour récupérer l'attribut `href`._
+	> </details>
 
-	> _**Indice 3 :** faites attention à faire vos addEventListener à un moment où les liens existent dans la page..._
+	> <details><summary>💡 <em>Indice 3</em></summary>
+	>
+	> ⚠️ _Faites bien attention à faire vos `addEventListener` à un moment où les liens existent dans la page..._
+	> </details>
+
 
 Si on clique sur la vignette du jeu "The Witcher 3: Wild Hunt", la page de détail doit s'afficher **SANS RECHARGEMENT DE PAGE !!** (_vérifiez bien dans l'onglet network des devtools que la page n'est pas rechargée complètement quand vous cliquez sur le lien_) :
 
