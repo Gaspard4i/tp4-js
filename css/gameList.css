@@ -159,7 +159,7 @@
 	height: calc(100% - 38px);
 	object-position: top left;
 	transition: all .5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-	/* transition: none; */
+	overflow-clip-margin: unset; /* fix pixelisation images chrome : https://stackoverflow.com/a/77059936 */
 }
 .gameList a:hover > img {
 	object-position: bottom right;
