@@ -10,7 +10,7 @@
 	to { transform: translateY(0); }
 }
 @keyframes slideDown{
-	from { transform: translateY(-20px); }
+	from { transform: translateY(var(--slide-from, -20px)); }
 	to { transform: translateY(0); }
 }
 @keyframes slideBg {

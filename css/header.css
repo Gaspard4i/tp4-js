@@ -73,6 +73,7 @@ body > header a.logo:hover small {
 }
 body > header a.logo:hover em {
 	color: #f0db4f;
+	text-shadow: 0 0 20px #f0db4f;
 }
 body > header a.logo:hover em::first-letter {
 	color: inherit;

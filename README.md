@@ -1,6 +1,6 @@
 <img src="images/readme/header.jpg">
 
-## Objectifs
+## 🎯 Objectifs
 - Savoir charger des ressources distantes avec AJAX
 - Générer un code HTML en fonction de la valeur retournée par un appel AJAX
 - Connecter un formulaire à un webservice distant

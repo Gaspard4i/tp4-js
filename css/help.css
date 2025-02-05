@@ -11,6 +11,8 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	--slide-from: -50px;
+	animation: slideDown .4s ease, fadeIn 1.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .button, .helpForm button[type="submit"] {
 	align-self: center;
@@ -33,6 +35,18 @@
 	background-position: 35%;
 	background-position: 0 0;
 	border-color: #06BFFF;
+}
+.helpForm label,
+.helpForm button[type="submit"] {
+	animation: slide .3s cubic-bezier(0.19, 1, 0.22, 1), fadeIn .4s ease;
+	animation-fill-mode: both;
+	animation-delay: .1s;
+}
+.helpForm label:last-of-type {
+	animation-delay: .2s;
+}
+.helpForm button[type="submit"] {
+	animation-delay: .3s;
 }
 .helpForm label {
 	width: 100%;

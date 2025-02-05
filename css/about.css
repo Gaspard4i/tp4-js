@@ -15,7 +15,7 @@
 .about.active .aboutContent > h2,
 .about.active .aboutContent > p,
 .about.active .aboutContent > .links,
-.about.active .aboutContent > button {
+.about.active .aboutContent > .button {
 	position: relative;
 	z-index: 1;
 	animation: fadeIn 1.5s cubic-bezier(0.19, 1, 0.22, 1) .2s, slideUp 1.8s cubic-bezier(0.19, 1, 0.22, 1) .2s;
@@ -27,7 +27,9 @@
 .about.active .aboutContent > .links {
 	animation-delay: .4s;
 }
-.about.active .aboutContent > button {
+.about.active .aboutContent > .button {
+	display: block;
+	text-decoration: none;
 	animation-delay: .5s;
 }
 

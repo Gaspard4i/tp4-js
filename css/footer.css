@@ -34,7 +34,5 @@ body > footer > div {
 }
 body > footer img[src="images/logo-iut.png"] {
 	width: 100px;
-	filter: invert() brightness(100);
-	opacity: .6;
 	display: block;
 }
